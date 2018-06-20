@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>com.company</groupId>
-	<artifactId>project</artifactId>
+	<artifactId>WeiXin</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	
@@ -43,6 +43,6 @@
 	</dependencies>
 	
 	<build>
-		<finalName>project</finalName>
+		<finalName>WeiXin</finalName>
 	</build>
 </project>
