@@ -54,13 +54,11 @@ public class WxServlet extends HttpServlet {
 	 * @return 如验证通过，返回true
 	 */
 	private boolean isFromWX(String token, String timestamp, String nonce, String signature) {
-		if(timestamp==null || nonce==null || signature==null) {
+		if(timestamp==null || nonce==null || signature==null || signature==null)
 			return false;
-		}
 		
-		String[] tmpArr = {token,timestamp,nonce};
 		//1）3字符串，字典排序
-		List<String> sortList = Arrays.asList(tmpArr);
+		List<String> sortList = Arrays.asList(new String[]{token,timestamp,nonce});
 		Collections.sort(sortList);
 		//2）对排序后的3字符串，拼接成一个串
 		StringBuffer toOneStr = new StringBuffer();
@@ -68,12 +66,11 @@ public class WxServlet extends HttpServlet {
 			toOneStr.append(s);
 		}
 		//   sha1加密
-		String decode = DigestUtils.sha1Hex(toOneStr.toString());
 		//3）与微信传来的signature比较，相同时校验成功
-		if(signature!=null && signature.equals(decode)) {
+		if( signature.equals(DigestUtils.sha1Hex(toOneStr.toString())) ) {
 			return true;
-		}
-		return false;
+		}else
+			return false;
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
