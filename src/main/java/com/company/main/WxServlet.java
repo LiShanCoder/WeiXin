@@ -21,27 +21,27 @@ public class WxServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-			String TOKEN = PropertiesUtil.getWX_token();
-			System.out.println(TOKEN);
-			//参数:			描述:
-			//signature		微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。
-			//timestamp		时间戳
-			//nonce			随机数
-			//echostr		随机字符串
-			String signature 	= request.getParameter("signature");
-			String timestamp 	= request.getParameter("timestamp");
-			String nonce 		= request.getParameter("nonce");
-			String echostr 		= request.getParameter("echostr");
-			
+		String TOKEN = PropertiesUtil.getWX_token();
+		System.out.println(TOKEN);
+		//参数:			描述:
+		//signature		微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。
+		//timestamp		时间戳
+		//nonce			随机数
+		//echostr		随机字符串
+		String signature 	= request.getParameter("signature");
+		String timestamp 	= request.getParameter("timestamp");
+		String nonce 		= request.getParameter("nonce");
+		String echostr 		= request.getParameter("echostr");
+		
+		try {
 			if(isFromWX(TOKEN, timestamp, nonce, signature)) {
-				try {
-					//4) 验证通过，原样返回echostr参数内容
-					response.setContentType("encoding=utf-8");
-					response.getWriter().print(echostr);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				//4) 验证通过，原样返回echostr参数内容
+				response.setContentType("encoding=utf-8");
+				response.getWriter().print(echostr);
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**<pre>
