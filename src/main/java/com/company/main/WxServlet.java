@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
+ * 【微信接入认证】
  * 第一步：填写服务器配置
  * 		在微信官网上填写，要连接的URL、使用的Token(官网填写的，要与本地文件的配置匹配)
  * @author LiShan
@@ -22,7 +23,6 @@ public class WxServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 		String TOKEN = PropertiesUtil.getWX_token();
-		System.out.println(TOKEN);
 		//参数:			描述:
 		//signature		微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。
 		//timestamp		时间戳

@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
+ * 【微信配置文件读取】
  * 1.有Properties.class基础的功能 2.简化load
  * properites文件步骤（后期可加入：直接在servletContext中，预先读取WeiXin.properties文件），简化读取微信相关key的步骤
  * 
