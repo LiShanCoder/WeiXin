@@ -29,6 +29,8 @@ public class PropertiesUtil {
 	 * 微信需要的配置的key，列表
 	 */
 	static final String TOKEN = "TOKEN";
+	static final String APPID = "APPID";
+	static final String APPSECRET = "APPSECRET";
 
 	/*
 	 * 初始化
@@ -76,5 +78,11 @@ public class PropertiesUtil {
 	}
 	public static String getWX_token() {
 		return properties.getProperty(TOKEN);
+	}
+	public static String getWX_appid() {
+		return properties.getProperty(APPID);
+	}
+	public static String getWX_appsecret() {
+		return properties.getProperty(APPSECRET);
 	}
 }

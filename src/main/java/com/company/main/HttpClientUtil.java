@@ -2,6 +2,7 @@ package com.company.main;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -70,9 +71,9 @@ public class HttpClientUtil {
 //        System.out.println(access_token);
 	}
 	
-	private static String APPID = "wxf99e416819915ef1";
-	private static String APPSECRET = "260bbabbb305acc502e5816033813d43";
-	private static String access_token = "";
+//	private static String APPID = "wxf99e416819915ef1";
+//	private static String APPSECRET = "260bbabbb305acc502e5816033813d43";
+//	private static String access_token = "";
 	
 	/*
 	 * 旧的设计方案
@@ -121,6 +122,18 @@ public class HttpClientUtil {
         return body;
     }
     
+    public static String getAccessToken() throws Exception {
+    	String result = null;
+		URI uri = new URIBuilder("https://api.weixin.qq.com/cgi-bin/token")
+				.setParameter("grant_type","client_credential")
+				.setParameter("appid", PropertiesUtil.getWX_appid())
+				.setParameter("secret", PropertiesUtil.getWX_appsecret())
+				.build();
+		String jsonResult = sendRequestGet(uri);
+		//TODO 处理返回体中，json数据
+		
+    	return result;
+    }
     /*
      * 新的设计方案
      */
