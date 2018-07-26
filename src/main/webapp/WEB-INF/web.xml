@@ -9,9 +9,18 @@
 		<servlet-name>WxServlet</servlet-name>
 		<servlet-class>com.company.main.WxServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>WxWebAuthorizeServlet</servlet-name>
+		<servlet-class>com.company.main.WxWebAuthorizeServlet</servlet-class>
+	</servlet>
+	
 	<servlet-mapping>
 		<servlet-name>WxServlet</servlet-name>
 		<url-pattern>/WxServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>WxWebAuthorizeServlet</servlet-name>
+		<url-pattern>/authorization</url-pattern>
 	</servlet-mapping>
 	
 </web-app>
