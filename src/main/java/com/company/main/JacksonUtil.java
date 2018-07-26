@@ -29,15 +29,10 @@ public class JacksonUtil {
         }
 	}
 	
-	public static HashMap<String,String> json2Hashmap(String jsonStr){
+	public static HashMap<String,String> json2Hashmap(String jsonStr) throws Exception{
 		ObjectMapper objectMapper = new ObjectMapper();
 		JavaType javaType = objectMapper.getTypeFactory().constructParametricType(HashMap.class, String.class, String.class);
-		HashMap<String,String> resultMap = null;
-		try {
-			resultMap = objectMapper.readValue(jsonStr, javaType);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return resultMap;
+
+		return objectMapper.readValue(jsonStr, javaType);
 	}
 }

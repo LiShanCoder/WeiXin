@@ -2,8 +2,8 @@ package com.company.main;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -122,18 +122,28 @@ public class HttpClientUtil {
         return body;
     }
     
-    public static String getAccessToken() throws Exception {
-    	String result = null;
+    private static String ACCESS_TOKEN = "access_token";
+    private static String ERRMSG = "errmsg";
+    public static String getWX_accessToken() throws Exception {
 		URI uri = new URIBuilder("https://api.weixin.qq.com/cgi-bin/token")
 				.setParameter("grant_type","client_credential")
 				.setParameter("appid", PropertiesUtil.getWX_appid())
 				.setParameter("secret", PropertiesUtil.getWX_appsecret())
 				.build();
 		String jsonResult = sendRequestGet(uri);
-		//TODO 处理返回体中，json数据
 		
-    	return result;
+    	return getAccessTokenFrom(jsonResult);
     }
+    
+    private static String getAccessTokenFrom(String jsonStr) throws Exception {
+    	HashMap<String, String> map = JacksonUtil.json2Hashmap(jsonStr);
+    	if(map.get(ERRMSG)!=null)
+    		throw new Exception(map.get("errcode") + ":" + map.get(ERRMSG));
+    	if(map.get(ACCESS_TOKEN)==null)
+    		throw new Exception("未知错误，即没错误代码，也没access_token");
+    	return map.get(ACCESS_TOKEN);
+    }
+    
     /*
      * 新的设计方案
      */
