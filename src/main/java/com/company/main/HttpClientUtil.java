@@ -40,41 +40,6 @@ import org.apache.http.util.EntityUtils;
  */
 public class HttpClientUtil {
 
-	public static void main(String[] args) throws Exception {
-		//使用示例
-		URI uri = new URIBuilder("https://api.weixin.qq.com/cgi-bin/token")
-				.setParameter("grant_type","client_credential")
-				.setParameter("appid", "")
-				.setParameter("secret", "")
-				.build();
-		String result = sendRequestGet(uri);
-		System.out.println(result);
-		
-		
-		
-//		//使用示例（旧）
-//		Map<String, String> paramMap = new HashMap<String, String>();
-//		paramMap.put("grant_type","client_credential");
-//		paramMap.put("appid", APPID);
-//		paramMap.put("secret", APPSECRET);
-//		String respJson = sendRequestGet("https://api.weixin.qq.com/cgi-bin/token", paramMap, "UTF-8");
-//		
-//		HashMap<String, String> respMap = JacksonUtil.json2Hashmap(respJson);
-//        String errcode = respMap.get("errcode");
-//        String accessToken = respMap.get("access_token");
-//        if(errcode!=null&&!errcode.equals("0")) {
-//        	System.out.println("请求失败");
-//        }else if(accessToken!=null) {
-//        	System.out.println("获得到access_token:\n"+accessToken);
-//        	access_token=accessToken;
-//        }
-//        System.out.println(access_token);
-	}
-	
-//	private static String APPID = "wxf99e416819915ef1";
-//	private static String APPSECRET = "260bbabbb305acc502e5816033813d43";
-//	private static String access_token = "";
-	
 	/*
 	 * 旧的设计方案
 	 */
