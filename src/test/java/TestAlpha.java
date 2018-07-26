@@ -1,17 +1,15 @@
-import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.http.client.utils.URIBuilder;
 import org.junit.Test;
 
 import com.company.main.HttpClientUtil;
 import com.company.main.JacksonUtil;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TestAlpha {
 
@@ -99,5 +97,23 @@ public class TestAlpha {
         	System.out.println("获得到access_token");
         	System.out.println(accessToken);
         }
+	}
+	
+	/*
+	 * PropertiesUtil.class
+	 */
+	@Test
+	public void test6() throws Exception {
+		InputStream inStream = new FileInputStream("src/main/resources/WeiXin.properties");
+		
+		Properties prop = new Properties();
+		prop.load(inStream);
+		
+		String val = prop.getProperty("key");
+		System.out.println(val);
+		
+//		Servlet的方法中使用，获取WEB-INF/classes的绝对路径
+//		String s = Thread.currentThread().getContextClassLoader().getResource("/").getPath();  
+//		System.out.println(s);
 	}
 }
