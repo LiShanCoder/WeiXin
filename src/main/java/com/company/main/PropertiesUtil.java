@@ -16,13 +16,9 @@ import java.util.Properties;
  */
 public class PropertiesUtil {
 	//	（还可以使用与servletContext结合的方案）
-	private static InputStream propInput;
 	private static Properties properties;
 	static{
-		initInput();
-		if(propInput==null)
-			throw new RuntimeException("没有找到微信配置文件");
-		initProperties();
+		init();
 	}
 
 	/*
@@ -35,15 +31,21 @@ public class PropertiesUtil {
 	/*
 	 * 初始化
 	 */
-	private static void initInput() {
-		propInput = PropertiesUtil.class.getResourceAsStream("/WeiXin.properties");
-	}
-	private static void initProperties() {
-		properties = new Properties();
+	private static void init() {
+		InputStream input = null;
 		try {
-			properties.load(propInput);
+			input = PropertiesUtil.class.getResourceAsStream("/WeiXin.properties");
+			if(input==null)
+				throw new RuntimeException("没有找到微信配置文件");
+			
+			properties = new Properties();
+			properties.load(input);
 		} catch (IOException e) {
 			throw new RuntimeException("加载配置文件错误", e);
+		} finally {
+			try {
+				input.close();
+			} catch (IOException e) { e.printStackTrace(); }
 		}
 	}
 
@@ -68,10 +70,7 @@ public class PropertiesUtil {
 	 * 较新的设计方案
 	 */
 	public static void reload() {
-		initInput();
-		if(propInput==null)
-			throw new RuntimeException("没有找到微信配置文件");
-		initProperties();
+		init();
 	}
 	public static String getValue(String key) {
 		return properties.getProperty(key);
