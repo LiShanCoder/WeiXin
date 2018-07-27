@@ -43,8 +43,9 @@ public class HttpClientUtil {
 	/*
 	 * 旧的设计方案
 	 */
+	@Deprecated
     public static String sendRequestGet(String url, Map<String,String> params,String encoding) throws ParseException, IOException{
-        String body = "";
+        String result = "";
         
         //装填参数
         List<NameValuePair> nvpList = new ArrayList<NameValuePair>();
@@ -62,14 +63,13 @@ public class HttpClientUtil {
 
         //创建post方式请求对象
         HttpGet httpGet = new HttpGet(url + "?" + paramsStr);
-//        //设置header信息
-//        //指定报文头【Content-type】、【User-Agent】
-//        httpGet.setHeader("Content-type", "application/x-www-form-urlencoded");
-//        httpGet.setHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
-//        
+        //设置header信息
+        //指定报文头【Content-type】、【User-Agent】
+        httpGet.setHeader("Content-type", "application/x-www-form-urlencoded");
+        httpGet.setHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
+        
         //创建httpclient对象
         CloseableHttpClient client = HttpClients.createDefault();
-        
         //执行请求操作，并拿到结果（同步阻塞）
         CloseableHttpResponse response = client.execute(httpGet);
         
@@ -77,14 +77,13 @@ public class HttpClientUtil {
         HttpEntity entity = response.getEntity();
         if (entity != null) {
             //按指定编码转换结果实体为String类型
-            body = EntityUtils.toString(entity, encoding);
+            result = EntityUtils.toString(entity, encoding);
         }
         EntityUtils.consume(entity);
-        
         //释放链接
         response.close();
-        System.out.println(body);
-        return body;
+        System.out.println(result);
+        return result;
     }
     
     private static String ACCESS_TOKEN = "access_token";
@@ -99,7 +98,6 @@ public class HttpClientUtil {
 		
     	return getAccessTokenFrom(jsonResult);
     }
-    
     private static String getAccessTokenFrom(String jsonStr) throws Exception {
     	HashMap<String, String> map = JacksonUtil.json2Hashmap(jsonStr);
     	if(map.get(ERRMSG)!=null)

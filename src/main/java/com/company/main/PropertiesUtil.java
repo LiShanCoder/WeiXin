@@ -41,7 +41,7 @@ public class PropertiesUtil {
 			properties = new Properties();
 			properties.load(input);
 		} catch (IOException e) {
-			throw new RuntimeException("加载配置文件错误", e);
+			throw new RuntimeException("加载配置文件失败", e);
 		} finally {
 			try {
 				input.close();
@@ -52,15 +52,18 @@ public class PropertiesUtil {
 	/*
 	 * 较旧的设计方案
 	 */
+	@Deprecated
 	public static String getValue(InputStream in, String key) throws Exception {
 		Properties prop = new Properties();
 		prop.load(in);
 		return prop.getProperty(key);
 	}
+	@Deprecated
 	public static String getValue(String filePath, String key) throws Exception {
 		InputStream in = new BufferedInputStream(new FileInputStream(filePath));
 		return getValue(in, key);
 	}
+	@Deprecated
 	public static String getWX_token(InputStream in) throws Exception {
 		return getValue(in, TOKEN);
 	}
