@@ -2,6 +2,7 @@ package com.company.main;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -88,38 +89,48 @@ public class HttpClientUtil {
     
     private static String ACCESS_TOKEN = "access_token";
     private static String ERRMSG = "errmsg";
-    public static String getWX_accessToken() throws Exception {
-		URI uri = new URIBuilder("https://api.weixin.qq.com/cgi-bin/token")
-				.setParameter("grant_type","client_credential")
-				.setParameter("appid", PropertiesUtil.getWX_appid())
-				.setParameter("secret", PropertiesUtil.getWX_appsecret())
-				.build();
+    public static String getWX_accessToken() {
+		URI uri = null;
+		try {
+			uri = new URIBuilder("https://api.weixin.qq.com/cgi-bin/token")
+					.setParameter("grant_type","client_credential")
+					.setParameter("appid", PropertiesUtil.getWX_appid())
+					.setParameter("secret", PropertiesUtil.getWX_appsecret())
+					.build();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
 		String jsonResult = sendRequestGet(uri);
 		
     	return getAccessTokenFrom(jsonResult);
     }
-    private static String getAccessTokenFrom(String jsonStr) throws Exception {
+    private static String getAccessTokenFrom(String jsonStr) {
     	HashMap<String, String> map = JacksonUtil.json2Hashmap(jsonStr);
     	if(map.get(ERRMSG)!=null)
-    		throw new Exception(map.get("errcode") + ":" + map.get(ERRMSG));
+    		throw new RuntimeException(map.get("errcode") + ":" + map.get(ERRMSG));
     	if(map.get(ACCESS_TOKEN)==null)
-    		throw new Exception("未知错误，即没错误代码，也没access_token");
+    		throw new RuntimeException("未知错误，即没错误代码，也没access_token");
     	return map.get(ACCESS_TOKEN);
     }
     
     /*
      * 新的设计方案
      */
-    public static String sendRequestGet(URI uri) throws Exception{
-    	HttpGet request = new HttpGet(uri);
-        //响应体 = CloseableHttpClient.发送请求(请求体)
-        CloseableHttpResponse response = HttpClients.createDefault().execute(request);
-        
-        //获取结果实体
-        String result = getRespBody(response.getEntity());
-
-        //释放链接
-        response.close();
+    public static String sendRequestGet(URI uri) {
+    	String result = null;
+        CloseableHttpResponse response = null;
+        try {
+        	HttpGet request = new HttpGet(uri);
+	        response = HttpClients.createDefault().execute(request);	//响应体 = CloseableHttpClient.发送请求(请求体)
+	        
+	        result = getRespBody(response.getEntity());		//获取结果实体
+        }catch (Exception e) {
+			throw new RuntimeException("http请求失败");
+		}finally {
+        	try {
+	            response.close();							//释放链接
+        	}catch(IOException e) { e.printStackTrace(); }
+		}
         return result;
     }
     private static String getRespBody(HttpEntity entity) throws Exception {

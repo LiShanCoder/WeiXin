@@ -27,11 +27,7 @@ public class WxWebAuthorizeServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		try {
-			System.out.println( getWx_openid(req) );
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		System.out.println( getWx_openid(req) );
 	}
 
 	/**
@@ -39,11 +35,11 @@ public class WxWebAuthorizeServlet extends HttpServlet {
 	 * 请求获得openid，和另一种access_token（与接入微信不同）
 	 * https://api.weixin.qq.com/sns/oauth2/access_token?appid= {APPID} &secret= {SECRET} &code= {CODE} &grant_type=authorization_code
 	 */
-	private static String getWx_openid(HttpServletRequest req) throws Exception {
-		String code = req.getParameter("code");
-		if(code==null)
-			throw new Exception("回调code参数缺失");
+	private static String getWx_openid(HttpServletRequest req){
 		try {
+			String code = req.getParameter("code");
+			if(code==null)
+				throw new Exception("回调code参数缺失");
 			URI uri = new URIBuilder("https://api.weixin.qq.com/sns/oauth2/access_token")
 					.setParameter("appid", PropertiesUtil.getWX_appid())
 					.setParameter("secret", PropertiesUtil.getWX_appsecret())
